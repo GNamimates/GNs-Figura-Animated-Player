@@ -102,7 +102,7 @@ function tick()
     end
     --climbable block detection
     local tempPpos = {player.getPos().x,player.getPos().y,player.getPos().z}
-    tempPpos[2] = tempPpos[2] + 0.9
+    tempPpos[2] = tempPpos[2] + 0.5
     for I in pairs(climbableBlocks) do
         if string.find(tostring(world.getBlockState(vectors.of(tempPpos)).name),climbableBlocks[I]) then
             isClimbing = true
@@ -189,9 +189,9 @@ function tick()
                 --climbing animation track
                 lastPunch = 100
                 pose.head = {0,0,0}
-                pose.body = {0,0,math.sin(altitudeClimbed*PI*2)}
-                pose.legLeft = {-math.sin(altitudeClimbed*PI*2)*-60+60,math.cos(altitudeClimbed*PI*2)*22+22,0}
-                pose.legRight = {-math.sin(altitudeClimbed*PI*2)*60+60,math.cos(altitudeClimbed*PI*2)*22-22,0}
+                pose.body = {0,0,math.sin(altitudeClimbed*PI*2)*10}
+                pose.legLeft = {-math.sin(altitudeClimbed*PI*2)*-60+60,math.cos(altitudeClimbed*PI*2)*22+22,-math.sin(altitudeClimbed*PI*2)*20}
+                pose.legRight = {-math.sin(altitudeClimbed*PI*2)*60+60,math.cos(altitudeClimbed*PI*2)*22-22,-math.sin(altitudeClimbed*PI*2)*20}
                 pose.footleft = {-math.sin(altitudeClimbed*PI*2)*60-60,0,0}
                 pose.footRight = {-math.sin(altitudeClimbed*PI*2)*-60-60,0,0}
                 pose.armLeft = {-math.sin(altitudeClimbed*PI*2)*90+90,-math.cos(altitudeClimbed*PI*2)*22+22,0}
