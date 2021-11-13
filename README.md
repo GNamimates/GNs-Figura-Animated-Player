@@ -21,8 +21,9 @@ adds an animated player with the [Figura Mod!](https://www.curseforge.com/minecr
 * sword attacking<br/>
 * 2 hands punching<br/>
 
-# how to install
+# how to put it on
 1. open file explorer or somethin and put this on the path<br/>
  %appdata%/.minecraft/figura/model_files <br/>
 2. and just put the folder in it!
 3. just a reminder that you need [Figura Mod](https://www.curseforge.com/minecraft/mc-mods/figura) for this to actually work
+4. also inside the folder just replace the texture.png with your skin, and dont forget to rename the file to texture.png so that it recognizes it
