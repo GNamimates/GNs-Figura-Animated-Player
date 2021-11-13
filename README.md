@@ -12,8 +12,9 @@ adds an animated player with the [Figura Mod!](https://www.curseforge.com/minecr
 ![hover swm](https://user-images.githubusercontent.com/81744903/141599078-959f954e-7c22-49be-a4b2-824065760fe7.gif)<br/>
 ## Sprint Swimming<br/>
 ![sprint swim](https://user-images.githubusercontent.com/81744903/141599083-a0f2b23b-f3a7-43e1-b92a-e214e4a314f3.gif)<br/>
-## Climbing
-![climbing](https://user-images.githubusercontent.com/81744903/141599933-7815b962-14c5-450c-a03f-30096fc9a3d6.gif)
+## Climbing<br/>
+![climbing](https://user-images.githubusercontent.com/81744903/141610770-fb7c88f2-d9d8-4ac1-bbb5-c5e49a599f9c.gif)<br/>
+
 
 ## and more<br/>
 * poiting (holding right click)<br/>
