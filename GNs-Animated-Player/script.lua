@@ -1,7 +1,7 @@
 
 --========================================================--
 --GNs animated player by GNamimates
---version 1.1
+--version 1.2
 --adds cool animations using the one and only figura mod!
 --========================================================--
 
@@ -21,6 +21,8 @@ stiffness = 0.3 --the lower the value is, the smoother the blending between anim
 noPunchItems = {"bow","sword","shield","trident"}
 --climbable blocks
 climbableBlocks = {"vine","ladder","scaffolding"}
+--liquid blocks
+liquidBlocks = {"seagrass","kelp","coral","water","lava"}
 
 --animation prioritization owo (the higher the number is, the more prioritized it is)
 --1. idle                 |
@@ -92,8 +94,16 @@ function tick()
     veldist = (lenth2({x=velocity.x,y=velocity.z}))
     altitudeClimbed = altitudeClimbed + velocity.y
 
+    local isSwimming = false
+
+    for I, lol in pairs(liquidBlocks) do
+        if string.find(world.getBlockState(player.getPos()).name,liquidBlocks[I]) then
+            isSwimming = true
+        end
+    end
+
     --sprintDetection
-    if player.isWet() then
+    if isSwimming then
         isSprinting = (player.getAnimation() == "SWIMMING")
     else
         if veldist > 0.14 then
@@ -123,7 +133,7 @@ function tick()
         distWalked = distWalked + (veldist*3)
     end
 
-    if not player.isWet() then
+    if not isSwimming then
         if player.isGrounded() then
             
             if veldist < 0.1 then--idle animation
