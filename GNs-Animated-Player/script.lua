@@ -4,7 +4,8 @@
 --version 1.2
 --adds cool animations using the one and only figura mod!
 --========================================================--
-
+--CREDITS
+--superpowers04 for the swimming, slim arms and animation stuff fixes
 
 PI = 3.14159
 
