@@ -1,11 +1,10 @@
 
 --========================================================--
 --GNs animated player by GNamimates
---version 1.2
+--version 1.1
 --adds cool animations using the one and only figura mod!
 --========================================================--
---CREDITS
---superpowers04 for the swimming, slim arms and animation stuff fixes
+
 
 PI = 3.14159
 
@@ -13,17 +12,31 @@ attackKey = keybind.getRegisteredKeybind("key.attack")
 interactKey = keybind.getRegisteredKeybind("key.use")
 dropKey = keybind.getRegisteredKeybind("key.drop")
 
+
 --======CONFIG=======--
 -- I don suggest changing this one, because it can break the punching animation
 stiffness = 0.3 --the lower the value is, the smoother the blending between animation tracks is
-
+-- if the player is using a slim skin
+isSlim = false
 --note: dosent have to be the full name of the item, just a key word of it
 -- items with the word in their name wont have the punching animation be played on click
 noPunchItems = {"bow","sword","shield","trident"}
 --climbable blocks
 climbableBlocks = {"vine","ladder","scaffolding"}
 --liquid blocks
-liquidBlocks = {"seagrass","kelp","coral","water","lava"}
+liquidBlocks = {"seagrass","kelp","coral","water","lava","flowing","liquid"}
+
+--action wheel magic stuff I dont get
+
+slimIcon = item_stack.createItem("minecraft:player_head")
+
+action_wheel.SLOT_1.setFunction(function() 
+    isSlim = (isSlim == false)
+    updateSlim()
+    network.ping("updateSlimNetwork",isSlim)
+end)
+
+network.registerPing("updateSlimNetwork")
 
 --animation prioritization owo (the higher the number is, the more prioritized it is)
 --1. idle                 |
@@ -75,6 +88,8 @@ function player_init()
         footleft={0,0,0},
         footRight={0,0,0} 
     }
+    updateSlim()
+    network.ping("updateSlimNetwork",isSlim)
 end
 
 --===== ANIMATIONS N STUFF=====--
@@ -169,9 +184,9 @@ function tick()
                     if isSprinting and dotp(localVel.x) > 0 then
                         -- sprinting animation track
                         pose.head = {20,0,0}
-                        pose.legLeft = {(math.sin(distWalked)*80+20)*moveMult,0,-5}
+                        pose.legLeft = {(math.sin(distWalked)*80+20)*moveMult,0,-1}
                         pose.footleft = {(math.sin(distWalked+math.rad(-(90*dotp(localVel.x+0.01))))*(45)-45)*moveMult,0,0}
-                        pose.legRight = {(math.sin(distWalked)*-80+20)*moveMult,0,5}
+                        pose.legRight = {(math.sin(distWalked)*-80+20)*moveMult,0,1}
                         pose.footRight = {(math.sin(distWalked+math.rad(-(90*dotp(localVel.x+0.01))))*-45-45)*moveMult,0,0}
                         pose.body = {localVel.x*-50-20,math.sin(distWalked)*5,localVel.z*70}
                         model.Body.setPos({0,-math.abs(math.sin(distWalked)),0})
@@ -272,11 +287,13 @@ function tick()
 
     --punching poses
     if canPunch then
-    if lastPunch < 60 then--cooling down arm
+    if lastPunch < 20 then--cooling down arm
         pose.armRight[2] = 45 + pose.armRight[2]
         pose.armLeft[2] = -45 + pose.armLeft[2]
-        pose.handLeft[1] = 20 + pose.handLeft[1]
-        pose.handRight[1] = 20 + pose.handRight[1]
+        pose.armRight[1] = 45 + pose.armRight[1]
+        pose.armLeft[1] = 45 + pose.armLeft[1]
+        pose.handLeft[1] = 80
+        pose.handRight[1] = 80
     end
         if HandMoved == false then--right punch
             if lastPunch < 20 then--retracting arm
@@ -348,10 +365,11 @@ function tick()
                 HandMoved = true
             end
             if string.find(player.getEquipmentItem(1).getType(),"sword") then
-                pose.armRight[2] = 100
-                pose.handRight[1] = pose.handRight[1]+ 15
-                pose.body[2] = pose.body[2]+ 100
-                pose.head[2] = pose.head[2]+ -100
+                pose.armRight[1] = -model.Body.MIMIC_HEAD.getRot().x+90
+				pose.armRight[2] = -45
+				pose.handRight[1] = 0
+                pose.body[2] = -45
+				pose.armRight[2] = 90
             end
             if string.find(player.getEquipmentItem(1).getType(),"shovel") then
                 pose.armRight[2] = 400
@@ -399,6 +417,31 @@ function render(delta)
     model.Body.RightArm.RightHand.setRot(tableLerp(model.Body.RightArm.RightHand.getRot(),pose.handRight,stiffness))
 end
 
+function updateSlim()
+    action_wheel.SLOT_1.setItem(slimIcon)
+    if isSlim then
+        action_wheel.SLOT_1.setTitle("switch to Classic")
+        
+    else
+        action_wheel.SLOT_1.setTitle("switch to Slim")
+    end
+end
+
+function updateSlimNetwork(slim)
+    --idk how networking works, I hope this works ;o-o
+    model.Body.LeftArm.LADef.setEnabled(not slim)
+    model.Body.LeftArm.LASlim.setEnabled(slim)
+    model.Body.LeftArm.LeftHand.LHDef.setEnabled(not slim)
+    model.Body.LeftArm.LeftHand.LHSlim.setEnabled(slim)
+
+    model.Body.RightArm.RADef.setEnabled(not slim)
+    model.Body.RightArm.RASlim.setEnabled(slim)
+    model.Body.RightArm.RightHand.RHDef.setEnabled(not slim)
+    model.Body.RightArm.RightHand.RHSlim.setEnabled(slim)
+
+    model.MIMIC_RIGHT_ARM_fps.cubeDef.setEnabled(not slim)
+    model.MIMIC_RIGHT_ARM_fps.cubeSlim.setEnabled(slim)
+end
 
 --the "im too dumb to find them so I made my own" section
 function lenth3(vector)
