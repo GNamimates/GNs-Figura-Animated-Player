@@ -1,3 +1,4 @@
+# This was made for 0.0.6, updated one soon?
 # GNs-Figura-Animated-Player
 animated player for Figura mod<br/>
 adds an animated player with the [Figura Mod!](https://www.curseforge.com/minecraft/mc-mods/figura)<br/>
