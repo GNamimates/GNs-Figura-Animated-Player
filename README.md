@@ -1,4 +1,5 @@
-# This was made for 0.0.6, updated one soon?
+# This was made for Figura prewrite (Figura 0.0.8 and bellow), a newer one has recently been released, which is made for figura 0.1.0
+https://discord.com/channels/805969743466332191/976527692549726258/1026281735173984266
 # GNs-Figura-Animated-Player
 animated player for Figura mod<br/>
 adds an animated player with the [Figura Mod!](https://www.curseforge.com/minecraft/mc-mods/figura)<br/>
